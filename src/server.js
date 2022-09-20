@@ -1,13 +1,20 @@
 import express from "express";
 
-// create application
 const PORT = 4000;
+
 const app = express();
 
-// configure application
-app.get("/", () => console.log("Somebody is trying to go home"));
+const handleHome = (req, res) => {
+  return res.send("I still love you");
+};
+const handleLogin = (req, res) => {
+  return res.send("Login here.");
+};
 
-// open the application to the outside world
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
+app.get("/", handleHome);
+app.get("/login", handleLogin);
+
+const handleListening = () =>
+  console.log(`✅ Server listenting on port http://localhost:${PORT} 🚀`);
+
+app.listen(PORT, handleListening);
