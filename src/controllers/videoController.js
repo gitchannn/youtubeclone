@@ -1,6 +1,6 @@
 const fakeUser = {
   username: "Nico",
-  loggedIn: false,
+  loggedIn: true,
 };
 
 export const trending = (req, res) =>

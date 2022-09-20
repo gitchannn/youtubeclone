@@ -5,6 +5,8 @@ html(lang="ko")
         link(rel="stylesheet" href="https://unpkg.com/mvp.css@1.11/mvp.css")
     body
         header 
+            if fakeUser.loggedIn    
+                small Hello #{fakeUser.username}
             nav 
                 ul 
                     if fakeUser.loggedIn 
