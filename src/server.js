@@ -4,17 +4,15 @@ import morgan from "morgan";
 const PORT = 4000;
 const app = express();
 const logger = morgan("dev");
-
-const home = (req, res) => {
-  return res.send("Home");
-};
-const login = (req, res) => {
-  return res.send("Login");
-};
-
 app.use(logger);
-app.get("/", home);
-app.get("/login", login);
+
+const globalRouter = express.Router();
+const userRouter = express.Router();
+const videoRouter = express.Router();
+
+app.use("/videos", videoRouter);
+app.use("/users", userRouter);
+app.use("/", globalRouter);
 
 const handleListening = () =>
   console.log(`✅ Server listenting on port http://localhost:${PORT} 🚀`);
