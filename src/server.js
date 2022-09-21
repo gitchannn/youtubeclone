@@ -10,7 +10,8 @@ const app = express();
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 
-app.use(morgan("dev"));
+app.use(morgan("dev")); // middleware
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
