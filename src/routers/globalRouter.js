@@ -7,6 +7,5 @@ const globalRouter = express.Router();
 globalRouter.get("/", trending); // video
 globalRouter.get("/join", join); // user
 globalRouter.get("/login", login); // user
-globalRouter.get("/search", search); // video
 
 export default globalRouter;
