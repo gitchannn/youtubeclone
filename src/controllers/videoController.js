@@ -13,8 +13,11 @@ export const watch = async (req, res) => {
   const { id } = req.params;
   // id를 통해서 database에 접근
   const video = await Video.findById(id);
-  console.log(video);
-  return res.render("watch", { pageTitle: video.title, video });
+  console.log("VIDEO: ", video);
+  if (video) {
+    return res.render("watch", { pageTitle: video.title, video });
+  }
+  return res.render("404", { pageTitle: "Video not found." });
 };
 export const getEdit = (req, res) => {
   const { id } = req.params;
