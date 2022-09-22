@@ -3,13 +3,13 @@ import mongoose from "mongoose";
 // define the shape of the model
 const videoSchema = new mongoose.Schema({
   // describe our database to mongoose.
-  title: String,
-  description: String,
-  createdAt: { type: Date, required: true },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  createdAt: { type: Date, required: true, default: Date.now },
   hashtags: [{ type: String }],
   meta: {
-    views: Number,
-    rating: Number,
+    views: { type: "Number", default: 0, required: true },
+    rating: { type: "Number", default: 0, required: true },
   },
 });
 
