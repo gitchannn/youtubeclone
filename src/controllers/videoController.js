@@ -2,10 +2,8 @@ import Video from "../models/Video";
 
 export const home = async (req, res) => {
   try {
-    console.log("Start");
-    const videos = await Video.find({}); // JS will wait in this line.
-    console.log(videos);
-    console.log("Finish");
+    const videos = await Video.find({});
+    console.log("videos: ", videos);
     return res.render("home", { pageTitle: "Home", videos });
   } catch (error) {
     return res.render("server-error", { error });
@@ -13,25 +11,33 @@ export const home = async (req, res) => {
 };
 export const watch = (req, res) => {
   const { id } = req.params;
-  const video = videos[id - 1]; // video index : 0, 1, 2 VS id : 1, 2, 3
   return res.render("watch", { pageTitle: "Watch" });
 };
 export const getEdit = (req, res) => {
   const { id } = req.params;
-  const video = videos[id - 1]; // video index : 0, 1, 2 VS id : 1, 2, 3
   return res.render("edit");
 };
 export const postEdit = (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
-  videos[id - 1].title = title;
   return res.redirect(`/videos/${id}`);
 };
 export const getUpload = (req, res) => {
   return res.render("upload", { pageTitle: "Upload Video" });
 };
-export const postUpload = (req, res) => {
-  // here we will add a video to the videos array.
-  const { title } = req.body;
+export const postUpload = async (req, res) => {
+  const { title, description, hashtags } = req.body;
+  const video = new Video({
+    title,
+    description,
+    createdAt: Date.now(),
+    hashtags: hashtags.split(",").map((word) => `#${word}`),
+    meta: {
+      views: 0,
+      rating: 0,
+    },
+  });
+  const dbVideo = await video.save(); // Promise : wait here ! (Save in Database)
+  console.log(dbVideo);
   return res.redirect("/");
 };
