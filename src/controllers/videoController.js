@@ -9,9 +9,12 @@ export const home = async (req, res) => {
     return res.render("server-error", { error });
   }
 };
-export const watch = (req, res) => {
+export const watch = async (req, res) => {
   const { id } = req.params;
-  return res.render("watch", { pageTitle: "Watch" });
+  // id를 통해서 database에 접근
+  const video = await Video.findById(id);
+  console.log(video);
+  return res.render("watch", { pageTitle: video.title, video });
 };
 export const getEdit = (req, res) => {
   const { id } = req.params;
