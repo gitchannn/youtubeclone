@@ -13,6 +13,13 @@ const videoSchema = new mongoose.Schema({
   },
 });
 
+// middleware should be made before creating a model
+videoSchema.pre("save", async function () {
+  this.hashtags = this.hashtags[0]
+    .split(",")
+    .map((word) => (word.startsWith("#") ? word : `#${word}`));
+});
+
 // create model
 const Video = mongoose.model("Video", videoSchema);
 
