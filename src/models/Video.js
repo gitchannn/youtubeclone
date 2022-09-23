@@ -1,8 +1,5 @@
 import mongoose from "mongoose";
 
-export const formatHashtags = (hashtags) =>
-  hashtags.split(",").map((word) => (word.startsWith("#") ? word : `#${word}`));
-
 // define the shape of the model
 const videoSchema = new mongoose.Schema({
   // describe our database to mongoose.
@@ -15,6 +12,10 @@ const videoSchema = new mongoose.Schema({
     rating: { type: "Number", default: 0, required: true },
   },
 });
+
+videoSchema.static("formatHashtags", (hashtags) =>
+  hashtags.split(",").map((word) => (word.startsWith("#") ? word : `#${word}`))
+);
 
 // create model
 const Video = mongoose.model("Video", videoSchema);
