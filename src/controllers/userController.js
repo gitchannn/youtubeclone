@@ -101,9 +101,30 @@ export const finishGitHubLogin = async (req, res) => {
         headers: { Authorization: `token ${access_token}` },
       })
     ).json();
-    const email = emailData.find((email) => email.primary && email.verified);
-    if (!email) {
+    const emailObj = emailData.find((email) => email.primary && email.verified);
+    if (!emailObj) {
       return res.redirect("/login");
+    }
+    // gitHub Login vs password Login
+    const existingUser = await User.findOne({ email: emailObj.email });
+    if (existingUser) {
+      // gitHub으로 로그인했는데 기존에 pw login했던 사람이면 그냥 로그인시켜줌
+      req.session.loggedIn = true;
+      req.session.user = existingUser;
+      return res.redirect("/");
+    } else {
+      // create an account
+      const user = await User.create({
+        name: userData.name,
+        username: userData.login,
+        email: emailObj.email,
+        password: "",
+        socialOnly: true,
+        location: userData.location,
+      });
+      req.session.loggedIn = true;
+      req.session.user = user;
+      return res.redirect("/");
     }
   } else {
     return res.redirect("/login");
