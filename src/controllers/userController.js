@@ -101,7 +101,10 @@ export const finishGitHubLogin = async (req, res) => {
         headers: { Authorization: `token ${access_token}` },
       })
     ).json();
-    console.log("!!! EMAIL DATA:", emailData);
+    const email = emailData.find((email) => email.primary && email.verified);
+    if (!email) {
+      return res.redirect("/login");
+    }
   } else {
     return res.redirect("/login");
   }
