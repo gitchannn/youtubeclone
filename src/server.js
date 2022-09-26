@@ -22,8 +22,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: "Hello!",
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     // 이 코드가 없다면: session data는 server에 저장됨 => Data가 자꾸 사라짐
     // session data를 mongoDB에 저장하기! (server를 죽여도, re-render해도 유지됨)
     store: MongoStore.create({
