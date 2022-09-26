@@ -1,19 +1,25 @@
 doctype html
 html(lang="ko")
     head
-        title #{pageTitle} | Youtube
+        title #{pageTitle} | #{siteName}
         link(rel="stylesheet" href="https://unpkg.com/mvp.css@1.11/mvp.css")
     body
         header 
-            h1 Who is sexy? #{sexy}
+            h1=pageTitle
             nav 
                 ul 
                     li 
                         a(href="/") Home
-                    li 
-                        a(href="/join") Join
-                    li 
-                        a(href="/login") Login
+                    if loggedIn 
+                        li 
+                            a(href="/logout") Log out
+                        li 
+                            a(href="/my-profile") #{loggedInUser.name}의 Profile
+                    else
+                        li 
+                            a(href="/join") Join
+                        li 
+                            a(href="/login") Login
                     li 
                         a(href="/videos/upload") Upload Video
                     li 
