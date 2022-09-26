@@ -21,13 +21,14 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
-    secret: "Hello!",
+    secret: process.env.COOKIE_SECRET,
     resave: false,
     saveUninitialized: false,
-    // 이 코드가 없다면: session data는 server에 저장됨 => Data가 자꾸 사라짐
-    // session data를 mongoDB에 저장하기! (server를 죽여도, re-render해도 유지됨)
+    cookie: {
+      maxAge: 200000000, // milliseconds
+    },
     store: MongoStore.create({
-      mongoUrl: "mongodb://127.0.0.1:27017/youtubeclone",
+      mongoUrl: process.env.DB_URL,
     }),
   })
 );

@@ -1,3 +1,4 @@
+import "dotenv/config";
 import "./db"; // connect to Mongo
 import "./models/Video";
 import "./models/User";
