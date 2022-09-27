@@ -41,6 +41,7 @@ app.use((req, res, next) => {
 });
 
 app.use(localsMiddleWare); // after session middleware
+app.use("/uploads", express.static("uploads"));
 app.use("/videos", videoRouter);
 app.use("/users", userRouter);
 app.use("/", rootRouter);
