@@ -192,8 +192,9 @@ export const postChangePassword = async (req, res) => {
     },
     body: { oldPassword, newPassword, newPasswordConfirmation },
   } = req;
+  const user = await User.findById(_id);
   // 기존 pw가 맞는지 확인
-  const ok = await bcrypt.compare(oldPassword, password);
+  const ok = await bcrypt.compare(oldPassword, user.password);
   if (!ok) {
     return res.status(400).render("users/change-password", {
       pageTitle: "Change Password",
@@ -207,13 +208,8 @@ export const postChangePassword = async (req, res) => {
       errorMessage: "The password does not match the confirmation.",
     });
   }
-  const user = await User.findById(_id);
-  console.log("OLD:", user.password);
   user.password = newPassword;
-  console.log("BEFORE HASHING:", user.password);
   await user.save();
-  req.session.user.password = user.password;
-  console.log("AFTER HASHING:", user.password);
   return res.redirect("/users/logout");
 };
 
