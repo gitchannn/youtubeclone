@@ -144,7 +144,8 @@ export const postEdit = async (req, res) => {
     body: { name, email, username, location },
     file,
   } = req;
-  console.log("!!! FILE:", file);
+  console.log(file);
+
   // 바뀐 값이 있다면 겹치는지 알아보기 위해 빈 array 생성
   let searchParam = [];
   // 값을 수정했는지 확인
@@ -170,6 +171,7 @@ export const postEdit = async (req, res) => {
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
+      avatarUrl: file ? file.path : avatarUrl,
       name,
       email,
       username,
