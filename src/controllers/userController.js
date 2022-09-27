@@ -139,11 +139,32 @@ export const getEdit = (req, res) => {
 export const postEdit = async (req, res) => {
   const {
     session: {
-      user: { _id },
+      user: { _id, avatarUrl, email: sessionEmail, username: sessionUsername },
     },
     body: { name, email, username, location },
   } = req;
-
+  // 바뀐 값이 있다면 겹치는지 알아보기 위해 빈 array 생성
+  let searchParam = [];
+  // 값을 수정했는지 확인
+  if (sessionEmail !== email) {
+    searchParam.push({ email });
+  }
+  if (sessionUsername !== username) {
+    searchParam.push({ username });
+  }
+  // 변경된 값이 있다면 실행되는 if문
+  if (searchParam.length > 0) {
+    // 같은 username OR email을 사용하는 유저가 있는지 확인
+    const foundUser = await User.findOne({ $or: searchParam });
+    if (foundUser && foundUser._id.toString() !== _id) {
+      // 겹치는 유저가 존재하는데, 그게 본인이 아님 (다른 누군가가 사용중)
+      return res.status(400).render("edit-profile", {
+        pageTitle: "Edit Profile",
+        errorMessage: "This username/email is already taken.",
+      });
+    }
+  }
+  // 사용중인 다른 유저가 없는 username AND email이라면, 내껄로 저장 & UPDATE
   const updatedUser = await User.findByIdAndUpdate(
     _id,
     {
