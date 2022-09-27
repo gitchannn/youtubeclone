@@ -42,7 +42,7 @@ export const getLogin = (req, res) =>
 export const postLogin = async (req, res) => {
   const { username, password } = req.body;
   const pageTitle = "Login";
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ username, socialOnly: false });
   // check if account exists
   if (!user) {
     return res.status(400).render("login", {
@@ -106,26 +106,19 @@ export const finishGitHubLogin = async (req, res) => {
       return res.redirect("/login");
     }
     // gitHub Login vs password Login
-    const existingUser = await User.findOne({ email: emailObj.email });
-    if (existingUser) {
-      // gitHub으로 로그인했는데 기존에 pw login했던 사람이면 그냥 로그인시켜줌
-      req.session.loggedIn = true;
-      req.session.user = existingUser;
-      return res.redirect("/");
-    } else {
-      // create an account
-      const user = await User.create({
+    let user = await User.findOne({ email: emailObj.email }); // 기존에 있는지 확인
+    if (!user) {
+      user = await User.create({
         name: userData.name,
         username: userData.login,
         email: emailObj.email,
         password: "",
         socialOnly: true,
-        location: userData.location,
       });
-      req.session.loggedIn = true;
-      req.session.user = user;
-      return res.redirect("/");
     }
+    req.session.loggedIn = true;
+    req.session.user = user;
+    return res.redirect("/");
   } else {
     return res.redirect("/login");
   }
