@@ -124,5 +124,9 @@ export const finishGitHubLogin = async (req, res) => {
     return res.redirect("/login");
   }
 };
-export const logout = (req, res) => res.send("Log out");
+export const logout = (req, res) => {
+  req.session.destroy();
+  // req.session.user = null;
+  return res.redirect("/");
+};
 export const see = (req, res) => res.send("See User");
