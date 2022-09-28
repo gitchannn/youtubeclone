@@ -33,6 +33,6 @@ userRouter
 userRouter.get("/remove", remove);
 userRouter.get("/github/start", publicOnlyMiddleware, startGitHubLogin);
 userRouter.get("/github/finish", publicOnlyMiddleware, finishGitHubLogin);
-userRouter.get(":id", see);
+userRouter.get("/:id", see);
 
 export default userRouter;
