@@ -97,7 +97,6 @@ export const finishGitHubLogin = async (req, res) => {
         headers: { Authorization: `token ${access_token}` },
       })
     ).json();
-    console.log("!!! USER REQUEST:", userData);
     const emailData = await (
       await fetch(`${apiURL}/user/emails`, {
         headers: { Authorization: `token ${access_token}` },
@@ -144,7 +143,6 @@ export const postEdit = async (req, res) => {
     body: { name, email, username, location },
     file,
   } = req;
-  console.log(file);
 
   // 바뀐 값이 있다면 겹치는지 알아보기 위해 빈 array 생성
   let searchParam = [];
