@@ -13,7 +13,11 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre("save", async function () {
-  this.password = await bcrypt.hash(this.password, 5);
+  // PW가 아닌 video를 업로드할 때에도 hashing 발생 => 다시 로그인 불가능
+  // password가 수정되는 경우에만 한해서 hashing을 하라는 if문
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 5);
+  }
 });
 
 const User = mongoose.model("User", userSchema);
