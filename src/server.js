@@ -13,10 +13,6 @@ app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 
 // middleware
-app.use((req, res, next) => {
-  console.log("-------------- START --------------");
-  next();
-});
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(
