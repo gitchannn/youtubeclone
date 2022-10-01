@@ -4,8 +4,11 @@
 
 // Components
 @import "./components/header.scss";
+@import "./components/footer.scss";
 
 // Screens
+@import "./screens/home.scss";
+
 // Defaults
 a {
   color: inherit;

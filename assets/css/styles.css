@@ -163,6 +163,19 @@ header ul .header__btn {
   border-radius: 5px;
 }
 
+footer {
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.8;
+  margin-top: 50px;
+}
+
+.video__grid {
+  display: grid;
+  gap: 50px;
+  grid-template-columns: repeat(4, 1fr);
+}
+
 a {
   color: inherit;
   text-decoration: none;
