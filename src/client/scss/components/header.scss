@@ -1,0 +1,30 @@
+header {
+  padding: 20px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .header___logo {
+    color: $red;
+    font-size: 38px;
+  }
+  ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    li {
+      margin-left: 25px;
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    i {
+      font-size: 16px;
+    }
+    .header__btn {
+      background-color: white;
+      color: $bg;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+  }
+}
