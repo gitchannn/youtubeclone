@@ -3,12 +3,14 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: "./src/client/js/main.js",
+  mode: "development",
+  watch: true, // npm run assets 반복할 필요 없음
+  clean: true, // build 시작 전에 output folder (assets)를 초기화함
   plugins: [
     new MiniCssExtractPlugin({
       filename: "css/styles.css",
     }),
   ],
-  mode: "development",
   output: {
     filename: "js/main.js",
     path: path.resolve(__dirname, "assets"),
