@@ -6,6 +6,8 @@ block content
         input(placeholder="Search by title" name="keyword" type="text")
         input(type="submit" value="Search Now")
 
-    div 
+    div.video-grid
         each video in videos 
             +video(video)
+        else 
+            span.empty__message No videos found.
