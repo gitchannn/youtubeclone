@@ -107,7 +107,14 @@ document.addEventListener("keyup", (event) => {
     handlePlayClick();
   }
 });
+
 muteBtn.addEventListener("click", handleMuteClick);
+document.addEventListener("keyup", (event) => {
+  if (event.keyCode === 77) {
+    handleMuteClick();
+  }
+});
+
 volumeRange.addEventListener("input", handleVolumeChange);
 video.addEventListener("loadeddata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
