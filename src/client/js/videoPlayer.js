@@ -7,7 +7,9 @@ const volumeRange = document.querySelector("#volume");
 const timeline = document.querySelector("#timeline");
 const FullScreenBtn = document.querySelector("#fullScreen");
 const videoContainer = document.querySelector("#videoContainer");
+const videoControls = document.querySelector("#videoControls");
 
+let controlsTimeout = null;
 let volumeValue = 0.5;
 video.volume = volumeValue;
 
@@ -78,6 +80,21 @@ const handleFullScreen = () => {
   }
 };
 
+const handleMouseMove = () => {
+  // 이미 진행중인 timeout이 있으면 무효로 함
+  if (controlsTimeout) {
+    clearTimeout(controlsTimeout);
+    controlsTimeout = null;
+  }
+  videoControls.classList.add("showing");
+};
+
+const handleMouseLeave = () => {
+  controlsTimeout = setTimeout(() => {
+    videoControls.classList.remove("showing");
+  }, 1000);
+};
+
 playBtn.addEventListener("click", handlePlayClick);
 muteBtn.addEventListener("click", handleMute);
 volumeRange.addEventListener("input", handleVolumeChange);
@@ -85,3 +102,5 @@ video.addEventListener("loadedmetadata", handleLoadedMetadata);
 video.addEventListener("timeupdate", handleTimeUpdate);
 timeline.addEventListener("input", handleTimeLineChange);
 FullScreenBtn.addEventListener("click", handleFullScreen);
+video.addEventListener("mousemove", handleMouseMove);
+video.addEventListener("mouseleave", handleMouseLeave);
