@@ -10,6 +10,7 @@ const videoContainer = document.querySelector("#videoContainer");
 const videoControls = document.querySelector("#videoControls");
 
 let controlsTimeout = null;
+let controlsMovementTimeout = null;
 let volumeValue = 0.5;
 video.volume = volumeValue;
 
@@ -80,18 +81,27 @@ const handleFullScreen = () => {
   }
 };
 
+const hideControls = () => {
+  videoControls.classList.remove("showing");
+};
+
 const handleMouseMove = () => {
   // 이미 진행중인 timeout이 있으면 무효로 함
   if (controlsTimeout) {
     clearTimeout(controlsTimeout);
     controlsTimeout = null;
   }
+  if (controlsMovementTimeout) {
+    clearTimeout(controlsMovementTimeout);
+    controlsMovementTimeout = null;
+  }
   videoControls.classList.add("showing");
+  controlsMovementTimeout = setTimeout(hideControls, 3000);
 };
 
 const handleMouseLeave = () => {
   controlsTimeout = setTimeout(() => {
-    videoControls.classList.remove("showing");
+    hideControls();
   }, 1000);
 };
 
