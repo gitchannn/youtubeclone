@@ -22,9 +22,9 @@ const handleStop = () => {
 };
 const handleStart = () => {
   startBtn.innerText = "Stop Recording";
-
   startBtn.removeEventListener("click", handleStart);
   startBtn.addEventListener("click", handleStop);
+
   recorder = new MediaRecorder(stream);
   recorder.ondataavailable = (event) => {
     videoFile = URL.createObjectURL(event.data);
@@ -33,6 +33,7 @@ const handleStart = () => {
 
     video.srcObject = null;
     video.src = videoFile;
+    video.loop = true;
     video.play();
   };
   recorder.start();
