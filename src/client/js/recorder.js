@@ -4,6 +4,14 @@ const video = document.querySelector("#preview");
 let stream;
 let recorder;
 
+const handleDownload = () => {};
+const handleStop = () => {
+  startBtn.innerText = "Download Recording";
+  startBtn.removeEventListener("click", handleStop);
+  startBtn.addEventListener("click", handleDownload);
+
+  recorder.stop();
+};
 const handleStart = () => {
   startBtn.innerText = "Stop Recording";
 
@@ -18,13 +26,7 @@ const handleStart = () => {
   };
   recorder.start();
 };
-const handleStop = () => {
-  startBtn.innerText = "Start Recording";
-  startBtn.removeEventListener("click", handleStop);
-  startBtn.addEventListener("click", handleStart);
 
-  recorder.stop();
-};
 const init = async () => {
   stream = await navigator.mediaDevices.getUserMedia({
     audio: false,
