@@ -1,3 +1,5 @@
+include mixins/messages
+
 doctype html
 html(lang="ko")
     head
@@ -6,11 +8,11 @@ html(lang="ko")
         link(rel="stylesheet" href="/static/css/styles.css")
     body
         if messages.error 
-            span=messages.error
+            +messages("error",messages.error)
         if messages.info 
-            span=messages.info
+            +messages("info",messages.info)
         if messages.success 
-            span=messages.success
+            +messages("success",messages.success)
         include partials/header.pug
         main
             block content
