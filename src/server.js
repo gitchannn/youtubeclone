@@ -21,7 +21,7 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 
 // 웹사이트에 request로 들어오는 text를 이해하게 만들어줌
-app.use(express.text());
+app.use(express.json());
 
 app.use(
   session({
