@@ -14,6 +14,11 @@ const handleDownload = async () => {
   // 2. ffmpeg 세계에 파일을 만듦
   ffmpeg.FS("writeFile", "recording.webm", await fetchFile(videoFile));
   await ffmpeg.run("-i", "recording.webm", "-r", "60", "output.mp4"); // recording.webm을 넣으면 output.mp4가 나옴
+
+  const mp4File = ffmpeg.FS("readFile", "output.mp4");
+  console.log(mp4File);
+  console.log(mp4File.buffer);
+
   const a = document.createElement("a");
   a.href = videoFile;
   a.download = "MyRecording.webm";
