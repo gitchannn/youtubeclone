@@ -12,8 +12,9 @@ const handleSubmit = (event) => {
   fetch(`/api/videos/${videoId}/comment`, {
     method: "POST",
     headers: { "Content-Type": "application/json" }, // middleware는 현재 우리가 보내는게 text라 생각함 => json이라고 말해줘야함
-    body: JSON.stringify({ text, rating: "5" }), // data를 여러 개 보내는 경우에 JSON으로 변환해야함
+    body: JSON.stringify({ text }), // data를 여러 개 보내는 경우에 JSON으로 변환해야함
   });
+  textarea.value = "";
 };
 
 if (form) {
