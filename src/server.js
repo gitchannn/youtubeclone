@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import session from "express-session";
+import flash from "express-flash";
 import MongoStore from "connect-mongo";
 import rootRouter from "./routers/rootRouter";
 import userRouter from "./routers/userRouter";
@@ -42,6 +43,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(flash());
 app.use(localsMiddleWare); // after session middleware
 app.use("/uploads", express.static("uploads"));
 app.use("/static", express.static("assets")); // please let people look at the assests file

@@ -30,6 +30,7 @@ export const getEdit = async (req, res) => {
     return res.render("404", { pageTitle: "Video not found." });
   }
   if (String(video.owner) !== String(_id)) {
+    req.flash("error", "Not authorized.");
     return res.status(403).redirect("/");
   }
   return res.render("edit", { pageTitle: `Editing: ${video.title}`, video });
