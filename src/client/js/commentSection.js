@@ -11,9 +11,12 @@ const addComment = (text) => {
   icon.className = "fas fa-comment";
   const span = document.createElement("span");
   span.innerText = `${text}`;
+  const span2 = document.createElement("span");
+  span2.innerText = "❌";
 
   newComment.appendChild(icon);
   newComment.appendChild(span);
+  newComment.appendChild(span2);
 
   videoComments.appendChild(newComment);
 };
