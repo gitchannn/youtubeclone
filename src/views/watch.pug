@@ -38,7 +38,7 @@ block content
     div.video__comments
         ul 
             each comment in video.comments
-                li.video__comment
+                li.video__comment(data-id=comment._id)
                     i.fas.fa-comment
                     span #{comment.text}
                     span ❌
