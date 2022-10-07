@@ -28,6 +28,7 @@ const handleSubmit = async (event) => {
   if (text === "" || text.trim() === "") {
     return;
   }
+  // 2. 프론트에서는 response가 오길 기다린 다음에
   const response = await fetch(`/api/videos/${videoId}/comment`, {
     method: "POST",
     headers: { "Content-Type": "application/json" }, // middleware는 현재 우리가 보내는게 text라 생각함 => json이라고 말해줘야함
@@ -38,6 +39,10 @@ const handleSubmit = async (event) => {
     addComment(text);
   }
   textarea.value = "";
+  // 3. response 안에서 json을 추출함
+  const json = await response.json();
+  console.log(json);
+  const { newCommentId } = json;
 };
 
 if (form) {

@@ -144,5 +144,6 @@ export const createComment = async (req, res) => {
   });
   video.comments.push(comment._id);
   video.save();
-  return res.sendStatus(201);
+  // 1. 백엔드에서 json object를 보냄
+  return res.status(201).json({ newCommentId: comment._id }); // 네트워크 > 응답
 };
