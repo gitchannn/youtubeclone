@@ -1,6 +1,6 @@
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
 
-const startBtn = document.querySelector("#startBtn");
+const actionBtn = document.querySelector("#actionBtn");
 const video = document.querySelector("#preview");
 
 let stream;
@@ -22,12 +22,15 @@ const downloadFile = (fileUrl, fileName) => {
 };
 
 const handleDownload = async () => {
-  // 1. ffmpeg를 사용해 "유저의 서버"를 통해 로드함
+  actionBtn.removeEventListener("click", handleDownload);
+  actionBtn.innerText = "Transcoding...";
+  actionBtn.disabled = true;
+
   const ffmpeg = createFFmpeg({ log: true });
   await ffmpeg.load();
-  // 2. ffmpeg 세계에 파일을 만듦
+
   ffmpeg.FS("writeFile", files.input, await fetchFile(videoFile));
-  await ffmpeg.run("-i", files.input, "-r", "60", files.output); // recording.webm을 넣으면 output.mp4가 나옴
+  await ffmpeg.run("-i", files.input, "-r", "60", files.output);
   await ffmpeg.run(
     "-i",
     files.input,
@@ -57,19 +60,16 @@ const handleDownload = async () => {
   URL.revokeObjectURL(mp4Url);
   URL.revokeObjectURL(thumbUrl);
   URL.revokeObjectURL(videoFile);
+
+  actionBtn.disabled = false;
+  actionBtn.innerText = "Record Again";
+  actionBtn.addEventListener("click", handleStart);
 };
 
-const handleStop = () => {
-  startBtn.innerText = "Download Recording";
-  startBtn.removeEventListener("click", handleStop);
-  startBtn.addEventListener("click", handleDownload);
-
-  recorder.stop();
-};
 const handleStart = () => {
-  startBtn.innerText = "Stop Recording";
-  startBtn.removeEventListener("click", handleStart);
-  startBtn.addEventListener("click", handleStop);
+  actionBtn.innerText = "Recording";
+  actionBtn.disabled = true;
+  actionBtn.removeEventListener("click", handleStart);
 
   recorder = new MediaRecorder(stream);
   recorder.ondataavailable = (event) => {
@@ -79,14 +79,23 @@ const handleStart = () => {
     video.src = videoFile;
     video.loop = true;
     video.play();
+    actionBtn.innerText = "Download";
+    actionBtn.disabled = false;
+    actionBtn.addEventListener("click", handleDownload);
   };
   recorder.start();
+  setTimeout(() => {
+    recorder.stop();
+  }, 2000);
 };
 
 const init = async () => {
   stream = await navigator.mediaDevices.getUserMedia({
     audio: false,
-    video: true,
+    video: {
+      width: 1024,
+      height: 576,
+    },
   });
   video.srcObject = stream;
   video.play();
@@ -94,4 +103,4 @@ const init = async () => {
 
 init();
 
-startBtn.addEventListener("click", handleStart);
+actionBtn.addEventListener("click", handleStart);
