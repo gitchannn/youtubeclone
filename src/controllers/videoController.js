@@ -66,6 +66,7 @@ export const postUpload = async (req, res) => {
   } = req.session;
   const { path: fileUrl } = req.file;
   const { title, description, hashtags } = req.body;
+  console.log("!!!!! REQ FILE:", req.file);
   try {
     const newVideo = await Video.create({
       title,
@@ -74,6 +75,7 @@ export const postUpload = async (req, res) => {
       owner: _id, // 영상 올린 사람을 같이 저장
       hashtags: Video.formatHashtags(hashtags),
     });
+    console.log(fileUrl);
     const user = await User.findById(_id);
     user.videos.push(newVideo._id);
     user.save();
