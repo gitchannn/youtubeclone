@@ -27,9 +27,6 @@ const handleDownload = async () => {
   const mp4File = ffmpeg.FS("readFile", "output.mp4");
   const thumbFile = ffmpeg.FS("readFile", "thumbnail.jpg");
 
-  console.log(mp4File);
-  console.log(mp4File.buffer);
-
   const mp4Blob = new Blob([mp4File.buffer], { type: "video/mp4" });
   const thumbBlob = new Blob([thumbFile.buffer], { type: "image/jpg" });
 
@@ -47,7 +44,16 @@ const handleDownload = async () => {
   thumbA.download = "MyThumbnail.jpg";
   document.body.appendChild(thumbA);
   thumbA.click();
+
+  ffmpeg.FS("unlink", "recording.webm");
+  ffmpeg.FS("unlink", "output.mp4");
+  ffmpeg.FS("unlink", "thumbnail.jpg");
+
+  URL.revokeObjectURL(mp4Url);
+  URL.revokeObjectURL(thumbUrl);
+  URL.revokeObjectURL(videoFile);
 };
+
 const handleStop = () => {
   startBtn.innerText = "Download Recording";
   startBtn.removeEventListener("click", handleStop);
